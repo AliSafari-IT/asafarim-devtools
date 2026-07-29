@@ -1,13 +1,16 @@
 {
   "name": "asafarim-devtools",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "tsc --noEmit",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "redeploy": "powershell -ExecutionPolicy Bypass -File redeploy.ps1",
+    "vps:inspect": "ssh vps 'df -h /; docker system df'",
+    "vps:clean": "ssh vps 'df -h /; docker system df'"
   },
   "dependencies": {
     "next": "16.2.12",
