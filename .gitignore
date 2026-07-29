@@ -1,0 +1,12 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# next.js
+.next/
+out/
+
+# misc
+.env*.local
+*.pnpm-debug.log*
+.DS_Store

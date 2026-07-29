@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Badge background: deep indigo night-sky gradient -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1026"/>
+      <stop offset="0.55" stop-color="#131a3a"/>
+      <stop offset="1" stop-color="#1c1140"/>
+    </linearGradient>
+
+    <!-- Letterform gradient: teal horizon into amber sunrise -->
+    <linearGradient id="aGrad" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#2dd4bf"/>
+      <stop offset="0.5" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#fbbf24"/>
+    </linearGradient>
+
+    <!-- Journey trail gradient -->
+    <linearGradient id="trailGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2dd4bf" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#fbbf24"/>
+    </linearGradient>
+
+    <!-- Soft glow behind the monogram -->
+    <radialGradient id="glow" cx="0.5" cy="0.45" r="0.55">
+      <stop offset="0" stop-color="#38bdf8" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>
+
+    <clipPath id="badgeClip">
+      <rect x="16" y="16" width="480" height="480" rx="112"/>
+    </clipPath>
+  </defs>
+
+  <!-- Badge -->
+  <rect x="16" y="16" width="480" height="480" rx="112" fill="url(#bgGrad)"/>
+  <rect x="16" y="16" width="480" height="480" rx="112" fill="none"
+        stroke="#38bdf8" stroke-opacity="0.35" stroke-width="3"/>
+
+  <g clip-path="url(#badgeClip)">
+    <!-- Faint constellation grid, evoking a night safari sky -->
+    <g stroke="#94a3b8" stroke-opacity="0.10" stroke-width="2">
+      <path d="M16 128 H496 M16 256 H496 M16 384 H496 M128 16 V496 M256 16 V496 M384 16 V496"/>
+    </g>
+    <g fill="#e2e8f0">
+      <circle cx="96" cy="92" r="4" opacity="0.7"/>
+      <circle cx="412" cy="72" r="3" opacity="0.5"/>
+      <circle cx="448" cy="180" r="4" opacity="0.65"/>
+      <circle cx="70" cy="300" r="3" opacity="0.45"/>
+      <circle cx="430" cy="430" r="4" opacity="0.6"/>
+      <circle cx="120" cy="440" r="3" opacity="0.5"/>
+      <circle cx="352" cy="120" r="2.5" opacity="0.4"/>
+    </g>
+
+    <ellipse cx="256" cy="240" rx="220" ry="200" fill="url(#glow)"/>
+
+    <!-- Journey trail: a dotted path crossing the badge like a safari route -->
+    <path d="M-10 372 C 90 340, 150 420, 256 388 S 430 320, 522 352"
+          fill="none" stroke="url(#trailGrad)" stroke-width="7"
+          stroke-linecap="round" stroke-dasharray="0.1 22"/>
+    <!-- Destination pin at trail's end -->
+    <g transform="translate(452 344)">
+      <path d="M0 -34 C -19 -34, -30 -21, -30 -8 C -30 8, 0 30, 0 30 C 0 30, 30 8, 30 -8 C 30 -21, 19 -34, 0 -34 Z"
+            fill="#fbbf24"/>
+      <circle cx="0" cy="-9" r="10" fill="#0b1026"/>
+      <circle cx="0" cy="-9" r="5" fill="#2dd4bf"/>
+    </g>
+
+    <!-- The "A" monogram: twin peaks whose apex becomes a compass needle -->
+    <g fill="url(#aGrad)">
+      <!-- Left leg -->
+      <path d="M256 96 L148 392 L206 392 L256 232 Z"/>
+      <!-- Right leg -->
+      <path d="M256 96 L364 392 L306 392 L256 232 Z"/>
+      <!-- Compass needle piercing the apex -->
+      <path d="M256 40 L278 118 L256 96 L234 118 Z" fill="#fbbf24"/>
+      <circle cx="256" cy="40" r="9" fill="#2dd4bf"/>
+    </g>
+
+    <!-- Crossbar reimagined as a code tag: </> -->
+    <g stroke="#e2e8f0" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M196 300 L164 328 L196 356"/>
+      <path d="M316 300 L348 328 L316 356"/>
+    </g>
+    <path d="M270 288 L242 368" stroke="#fbbf24" stroke-width="16" stroke-linecap="round"/>
+  </g>
+</svg>
