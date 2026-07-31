@@ -1,11 +1,11 @@
 {
   "name": "asafarim-devtools",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node -e \"require('fs').rmSync('.next', { recursive: true, force: true })\" && next dev --port 3200",
     "build": "next build",
-    "start": "next start",
+    "start": "next start --port 3200",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "redeploy": "powershell -ExecutionPolicy Bypass -File redeploy.ps1",

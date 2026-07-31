@@ -9,7 +9,7 @@ interface Props {
 
 function NoDemo({ pkg }: { pkg: PackageMeta }) {
   return (
-    <div className="flex flex-col items-center justify-center h-full gap-5 p-8 text-center">
+    <div className="flex flex-col items-center justify-center h-full gap-4 sm:gap-5 p-6 sm:p-8 text-center">
       <div className="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center text-3xl">
         📦
       </div>
@@ -57,13 +57,13 @@ export default function PackageDemoFrame({ pkg }: Props) {
   return (
     <div className="flex flex-col h-full bg-slate-950">
       {/* Browser chrome bar */}
-      <div className="shrink-0 flex items-center gap-3 px-4 py-2 bg-slate-800/80 border-b border-slate-700/50">
-        <div className="flex items-center gap-1.5">
+      <div className="shrink-0 flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 bg-slate-800/80 border-b border-slate-700/50">
+        <div className="flex items-center gap-1.5 shrink-0">
           <div className="w-3 h-3 rounded-full bg-red-500/60" />
           <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
           <div className="w-3 h-3 rounded-full bg-green-500/60" />
         </div>
-        <div className="flex-1 bg-slate-700/50 border border-slate-600/30 rounded px-3 py-1">
+        <div className="flex-1 min-w-0 bg-slate-700/50 border border-slate-600/30 rounded px-3 py-1 hidden sm:block">
           <span className="text-xs text-slate-400 font-mono truncate block">{pkg.demoUrl}</span>
         </div>
         <a
