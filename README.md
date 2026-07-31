@@ -74,6 +74,17 @@ Redeploy with a single command (requires `ssh vps` access):
 
 This archives the repo, uploads it to `/var/repos/asafarim-devtools` on the VPS, rebuilds the Docker image, restarts the container, and verifies both sites respond.
 
+## Security
+
+Found a vulnerability? Please **do not** open a public issue — see our
+[Security Policy](.github/SECURITY.md) for how to report it privately.
+
+## Legal
+
+- [Privacy Policy](https://asafarim.be/privacy-policy)
+- [Cookie Policy](https://asafarim.be/cookie-policy)
+- [Terms of Use](https://asafarim.be/terms)
+
 ## Links
 
 - Website: https://asafarim.com
