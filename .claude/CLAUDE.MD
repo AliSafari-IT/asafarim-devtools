@@ -31,7 +31,7 @@ Production: https://asafarim.be
 
 ## Deployment (VPS via `ssh vps`)
 - VPS reachable passwordless as `vps`; IPv4 82.25.116.73 serves both asafarim.com and asafarim.be
-- App deploys from this repo to `/var/repos/asafarim-devtools`; compose project/container `asafarim-devtools`, internal port 3000
+- App deploys from this repo to `/var/repos/asafarim-devtools`; compose project/container `asafarim-devtools`, internal port 3200
 - All apps share Docker network `asafarim-com_asafarim_net`; Caddy container (`asafarim-com-caddy-1`) terminates TLS and routes per domain
 - Caddyfile: `/var/repos/asafarim-com/infra/caddy/Caddyfile` (backup `Caddyfile.bak`); reload zero-downtime:
   `docker exec asafarim-com-caddy-1 caddy reload --config /etc/caddy/Caddyfile`

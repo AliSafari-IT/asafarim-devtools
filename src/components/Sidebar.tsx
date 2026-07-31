@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import { useState, useMemo } from 'react'
 import { PACKAGES, CATEGORIES, CATEGORY_COLORS, type PackageCategory } from '@/lib/packages'
 
-export default function Sidebar() {
+export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname()
   const [search, setSearch] = useState('')
   const [collapsed, setCollapsed] = useState<Set<PackageCategory>>(new Set())
@@ -39,7 +39,7 @@ export default function Sidebar() {
     >
       {/* Branding */}
       <div className="shrink-0 px-4 py-4 border-b border-slate-700/50">
-        <Link href="/" className="flex items-center gap-2.5 group">
+        <Link href="/" onClick={onNavigate} className="flex items-center gap-2.5 group">
           <img
             src="/logo-icon.svg"
             alt="ASafariM DevTools logo"
@@ -129,6 +129,7 @@ export default function Sidebar() {
                       <li key={pkg.slug}>
                         <Link
                           href={`/packages/${pkg.slug}`}
+                          onClick={onNavigate}
                           title={pkg.name}
                           className={`flex items-center gap-2 pl-8 pr-3 py-1 text-xs transition-colors duration-100 ${
                             active

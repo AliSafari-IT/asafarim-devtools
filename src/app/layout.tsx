@@ -1,7 +1,7 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
-import Sidebar from '@/components/Sidebar'
+import AppShell from '@/components/AppShell'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -18,21 +18,24 @@ export const metadata: Metadata = {
   description: 'Interactive demos for all @asafarim npm packages',
 }
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#0b1026',
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-950 text-slate-100`}
         style={{ height: '100dvh', display: 'flex', overflow: 'hidden' }}
       >
-        <Sidebar />
-        <div className="flex flex-col flex-1 overflow-hidden min-w-0">
-          {children}
-        </div>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   )
