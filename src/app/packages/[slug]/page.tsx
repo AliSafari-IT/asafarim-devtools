@@ -1,7 +1,9 @@
 import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
 import { PACKAGES, CATEGORY_COLORS } from '@/lib/packages'
 import PackageDemoFrame from '@/components/PackageDemoFrame'
 import CopyButton from '@/components/CopyButton'
+import { SITE_NAME, SITE_URL, ORG_NAME } from '@/lib/seo'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -11,13 +13,32 @@ export async function generateStaticParams() {
   return PACKAGES.map(pkg => ({ slug: pkg.slug }))
 }
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const pkg = PACKAGES.find(p => p.slug === slug)
   if (!pkg) return {}
+
+  const url = `${SITE_URL}/packages/${pkg.slug}`
+  const title = pkg.name
+  const description = pkg.description
+
   return {
-    title: `${pkg.name} — ASafariM DevTools`,
-    description: pkg.description,
+    title,
+    description,
+    keywords: pkg.keywords,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      url,
+      title: `${title} — ${SITE_NAME}`,
+      description,
+      siteName: SITE_NAME,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} — ${SITE_NAME}`,
+      description,
+    },
   }
 }
 
@@ -28,8 +49,28 @@ export default async function PackagePage({ params }: Props) {
 
   const colors = CATEGORY_COLORS[pkg.category]
 
+  const softwareJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareSourceCode',
+    name: pkg.name,
+    description: pkg.description,
+    version: pkg.version,
+    programmingLanguage: 'TypeScript',
+    applicationCategory: pkg.category,
+    codeRepository: pkg.githubUrl,
+    url: `${SITE_URL}/packages/${pkg.slug}`,
+    downloadUrl: pkg.npmUrl,
+    keywords: pkg.keywords.join(', '),
+    author: { '@type': 'Organization', name: ORG_NAME },
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  }
+
   return (
     <div className="flex flex-col h-full overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }}
+      />
       {/* Page header */}
       <div className="shrink-0 bg-slate-900/95 backdrop-blur border-b border-slate-700/50 px-4 pl-12 md:pl-5 md:px-5 py-3">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
