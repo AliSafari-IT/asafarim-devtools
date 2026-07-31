@@ -169,7 +169,7 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
       </nav>
 
       {/* Footer */}
-      <div className="shrink-0 px-4 py-3 border-t border-slate-700/50">
+      <div className="shrink-0 px-4 py-3 border-t border-slate-700/50 space-y-2">
         <a
           href="https://www.npmjs.com/~asafarim.be"
           target="_blank"
@@ -179,6 +179,19 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
           <span>📦</span>
           <span>{PACKAGES.length} packages on npm</span>
         </a>
+        <div className="flex items-center gap-2 flex-wrap">
+          <Link href="/privacy-policy" onClick={onNavigate} className="text-xs text-slate-600 hover:text-slate-400 transition-colors">
+            Privacy
+          </Link>
+          <span className="text-slate-800">·</span>
+          <Link href="/cookie-policy" onClick={onNavigate} className="text-xs text-slate-600 hover:text-slate-400 transition-colors">
+            Cookies
+          </Link>
+          <span className="text-slate-800">·</span>
+          <Link href="/terms" onClick={onNavigate} className="text-xs text-slate-600 hover:text-slate-400 transition-colors">
+            Terms
+          </Link>
+        </div>
       </div>
     </aside>
   )
