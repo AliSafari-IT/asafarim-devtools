@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { PACKAGES } from '@/lib/packages'
+import { APPLICATIONS } from '@/lib/applications'
 import { SITE_URL } from '@/lib/seo'
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -39,5 +40,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }))
 
-  return [...staticRoutes, ...packageRoutes]
+  const applicationRoutes: MetadataRoute.Sitemap = APPLICATIONS.map(app => ({
+    url: `${SITE_URL}/applications/${app.id}`,
+    lastModified: now,
+    changeFrequency: 'monthly',
+    priority: 0.8,
+  }))
+
+  return [...staticRoutes, ...packageRoutes, ...applicationRoutes]
 }
