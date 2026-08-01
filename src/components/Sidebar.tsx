@@ -4,11 +4,12 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useMemo } from 'react'
 import { PACKAGES, CATEGORIES, CATEGORY_COLORS, type PackageCategory } from '@/lib/packages'
+import { APPLICATION_GROUPS } from '@/lib/applications'
 
 export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname()
   const [search, setSearch] = useState('')
-  const [collapsed, setCollapsed] = useState<Set<PackageCategory>>(new Set())
+  const [collapsed, setCollapsed] = useState<Set<string>>(new Set())
 
   const filteredPackages = useMemo(() => {
     const q = search.trim().toLowerCase()
@@ -21,7 +22,7 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
     )
   }, [search])
 
-  const toggleCategory = (cat: PackageCategory) => {
+  const toggleCategory = (cat: string) => {
     setCollapsed(prev => {
       const next = new Set(prev)
       if (next.has(cat)) next.delete(cat)
@@ -88,6 +89,67 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
 
       {/* Nav list */}
       <nav className="flex-1 overflow-y-auto py-1">
+        {/* Applications section */}
+        {APPLICATION_GROUPS.map(group => {
+          const isCollapsed = collapsed.has(group.id)
+          return (
+            <div key={group.id} className="mb-0.5">
+              <button
+                onClick={() => toggleCategory(group.id)}
+                className="w-full flex items-center justify-between px-4 py-1.5 group"
+              >
+                <span className="flex items-center gap-1.5">
+                  <span className="text-xs">{group.icon}</span>
+                  <span className="text-xs font-semibold uppercase tracking-wider text-orange-400 opacity-70 group-hover:opacity-100 transition-opacity">
+                    {group.label}
+                  </span>
+                  <span className="text-xs text-slate-600">
+                    {group.items.length}
+                  </span>
+                </span>
+                <svg
+                  className={`w-3 h-3 text-slate-600 transition-transform duration-150 ${isCollapsed ? '-rotate-90' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {!isCollapsed && (
+                <ul className="pb-1">
+                  {group.items.map(app => {
+                    const active = pathname.startsWith(app.activePathPrefix)
+                    return (
+                      <li key={app.id}>
+                        <Link
+                          href={app.href}
+                          onClick={onNavigate}
+                          title={app.description || app.label}
+                          className={`flex items-center gap-2 pl-8 pr-3 py-1 text-xs transition-colors duration-100 ${
+                            active
+                              ? 'bg-blue-500/15 text-blue-300 border-r-2 border-blue-500 font-medium'
+                              : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                          }`
+                          }
+                        >
+                          <span
+                            className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                              active ? 'bg-blue-400' : 'bg-orange-500/60'
+                            }`}
+                          />
+                          <span className="truncate font-mono">{app.label}</span>
+                        </Link>
+                      </li>
+                    )
+                  })}
+                </ul>
+              )}
+            </div>
+          )
+        })}
+
+        {/* Package categories */}
         {CATEGORIES.map(cat => {
           const pkgs = filteredPackages.filter(p => p.category === cat.id)
           if (pkgs.length === 0) return null
