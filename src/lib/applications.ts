@@ -25,7 +25,7 @@ export const APPLICATION_GROUPS: ApplicationGroup[] = [
         id: 'logo-normalizer',
         label: 'Logo Normalizer',
         href: '/applications/logo-normalizer',
-        embedUrl: '/apps/logo-normalizer/tools/logo-normalizer',
+        embedUrl: '/apps/logo-normalizer',
         activePathPrefix: '/applications/logo-normalizer',
         description: 'Normalize and optimize logo images',
         githubUrl: 'https://github.com/AliSafari-IT/logo-normalizer',
