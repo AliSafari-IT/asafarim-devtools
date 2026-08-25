@@ -9,8 +9,8 @@
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "redeploy": "powershell -ExecutionPolicy Bypass -File redeploy.ps1",
-    "vps:inspect": "ssh vps 'df -h /; docker system df'",
-    "vps:clean": "ssh vps 'df -h /; docker system df'"
+    "vps:inspect": "ssh asm 'df -h /; docker system df'",
+    "vps:clean": "ssh asm 'df -h /; docker system df'"
   },
   "dependencies": {
     "next": "16.2.12",

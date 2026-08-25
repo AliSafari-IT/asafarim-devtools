@@ -66,7 +66,7 @@ public/
 
 The site runs in Docker on the same VPS as [asafarim.com](https://asafarim.com), routed by a shared Caddy reverse proxy (`asafarim.be → devtools:3200`) with automatic Let's Encrypt TLS.
 
-Redeploy with a single command (requires `ssh vps` access):
+Redeploy with a single command (requires `ssh asm` access):
 
 ```powershell
 .\redeploy.ps1
