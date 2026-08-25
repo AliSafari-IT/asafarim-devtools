@@ -383,6 +383,17 @@ export const PACKAGES: PackageMeta[] = [
     keywords: ['markdown', 'export', 'folder', 'cli', 'cross-platform'],
     install: 'pnpm add -g @asafarim/md-exporter',
   },
+  {
+    slug: 'appsafe-cli',
+    name: '@asafarim/appsafe-cli',
+    version: '0.3.1',
+    description: 'Config-driven local file and folder encryption CLI for AppSafe.',
+    category: 'CLI Tools',
+    npmUrl: 'https://www.npmjs.com/package/@asafarim/appsafe-cli',
+    githubUrl: 'https://github.com/AliSafari-IT/asafarim-appsafe',
+    keywords: ['encryption', 'files', 'folders', 'security', 'cli'],
+    install: 'pnpm add -g @asafarim/appsafe-cli',
+  },
 
   // ─── Shared Libraries ─────────────────────────────────────────────────
   {
@@ -419,6 +430,18 @@ export const PACKAGES: PackageMeta[] = [
     githubUrl: 'https://github.com/AliSafari-IT/asafarim-dot-be',
     keywords: ['logging', 'shared', 'utility', 'environment-agnostic'],
     install: 'pnpm add @asafarim/shared-logging',
+  },
+  {
+    slug: 'appsafe',
+    name: '@asafarim/appsafe',
+    version: '0.3.1',
+    description: 'Browser-native password-based AES-256-GCM encryption for files and data.',
+    category: 'Shared Libraries',
+    npmUrl: 'https://www.npmjs.com/package/@asafarim/appsafe',
+    githubUrl: 'https://github.com/AliSafari-IT/asafarim-appsafe',
+    demoUrl: 'https://alisafari-it.github.io/asafarim-appsafe/',
+    keywords: ['encryption', 'aes-256-gcm', 'web-crypto', 'browser', 'security'],
+    install: 'pnpm add @asafarim/appsafe',
   },
 ]
 
