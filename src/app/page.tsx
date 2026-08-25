@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { PACKAGES, CATEGORIES, CATEGORY_COLORS } from '@/lib/packages'
+import { CATEGORIES, CATEGORY_COLORS, getPackages } from '@/lib/packages'
 import type { PackageMeta } from '@/lib/packages'
 import { SITE_URL } from '@/lib/seo'
 
@@ -47,13 +47,14 @@ function PackageCard({ pkg }: { pkg: PackageMeta }) {
   )
 }
 
-export default function Home() {
-  const liveCount = PACKAGES.filter(p => p.demoUrl).length
+export default async function Home() {
+  const packages = await getPackages()
+  const liveCount = packages.filter(p => p.demoUrl).length
 
   const itemListJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    itemListElement: PACKAGES.map((pkg, index) => ({
+    itemListElement: packages.map((pkg, index) => ({
       '@type': 'ListItem',
       position: index + 1,
       url: `${SITE_URL}/packages/${pkg.slug}`,
@@ -124,7 +125,7 @@ export default function Home() {
 
         {/* Stats */}
         <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-3 mt-5 md:mt-6 max-w-2xl">
-          <StatCard value={PACKAGES.length} label="Packages" color="text-blue-400" />
+          <StatCard value={packages.length} label="Packages" color="text-blue-400" />
           <StatCard value={CATEGORIES.length} label="Categories" color="text-purple-400" />
           <StatCard value={liveCount} label="Live Demos" color="text-emerald-400" />
         </div>
@@ -133,7 +134,7 @@ export default function Home() {
       {/* Package grid by category */}
       <div className="px-4 md:px-6 py-6 space-y-8 md:space-y-10">
         {CATEGORIES.map(cat => {
-          const pkgs = PACKAGES.filter(p => p.category === cat.id)
+          const pkgs = packages.filter(p => p.category === cat.id)
           const colors = CATEGORY_COLORS[cat.id]
           return (
             <section key={cat.id}>

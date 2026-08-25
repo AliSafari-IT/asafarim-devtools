@@ -434,7 +434,7 @@ export const PACKAGES: PackageMeta[] = [
   {
     slug: 'appsafe',
     name: '@asafarim/appsafe',
-    version: '0.3.1',
+    version: '0.4.0',
     description: 'Browser-native password-based AES-256-GCM encryption for files and data.',
     category: 'Shared Libraries',
     npmUrl: 'https://www.npmjs.com/package/@asafarim/appsafe',
@@ -444,6 +444,46 @@ export const PACKAGES: PackageMeta[] = [
     install: 'pnpm add @asafarim/appsafe',
   },
 ]
+
+interface NpmPackageMetadata {
+  'dist-tags'?: {
+    latest?: string
+  }
+}
+
+async function getLatestVersion(name: string, fallback: string): Promise<string> {
+  try {
+    const response = await fetch(`https://registry.npmjs.org/${encodeURIComponent(name)}`, {
+      next: { revalidate: 3600 },
+    })
+    if (!response.ok) return fallback
+
+    const metadata = await response.json() as NpmPackageMetadata
+    const latest = metadata['dist-tags']?.latest
+    return latest || fallback
+  } catch {
+    return fallback
+  }
+}
+
+export async function getPackages(): Promise<PackageMeta[]> {
+  return Promise.all(
+    PACKAGES.map(async pkg => ({
+      ...pkg,
+      version: await getLatestVersion(pkg.name, pkg.version),
+    })),
+  )
+}
+
+export async function getPackage(slug: string): Promise<PackageMeta | undefined> {
+  const pkg = PACKAGES.find(item => item.slug === slug)
+  if (!pkg) return undefined
+
+  return {
+    ...pkg,
+    version: await getLatestVersion(pkg.name, pkg.version),
+  }
+}
 
 export const CATEGORY_COLORS: Record<PackageCategory, { text: string; border: string; bg: string; badge: string }> = {
   'UI Components':    { text: 'text-blue-400',   border: 'border-blue-500',   bg: 'bg-blue-500/10',   badge: 'bg-blue-500/20 text-blue-300'   },

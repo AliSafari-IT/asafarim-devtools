@@ -1,6 +1,6 @@
 {
   "name": "asafarim-devtools",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "scripts": {
     "dev": "node -e \"require('fs').rmSync('.next', { recursive: true, force: true })\" && next dev --port 3200",

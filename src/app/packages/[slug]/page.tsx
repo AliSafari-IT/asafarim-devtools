@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import { PACKAGES, CATEGORY_COLORS } from '@/lib/packages'
+import { PACKAGES, CATEGORY_COLORS, getPackage } from '@/lib/packages'
 import PackageDemoFrame from '@/components/PackageDemoFrame'
 import CopyButton from '@/components/CopyButton'
 import { SITE_NAME, SITE_URL, ORG_NAME } from '@/lib/seo'
@@ -15,7 +15,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const pkg = PACKAGES.find(p => p.slug === slug)
+  const pkg = await getPackage(slug)
   if (!pkg) return {}
 
   const url = `${SITE_URL}/packages/${pkg.slug}`
@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PackagePage({ params }: Props) {
   const { slug } = await params
-  const pkg = PACKAGES.find(p => p.slug === slug)
+  const pkg = await getPackage(slug)
   if (!pkg) notFound()
 
   const colors = CATEGORY_COLORS[pkg.category]
