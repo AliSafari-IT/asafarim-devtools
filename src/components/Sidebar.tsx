@@ -2,14 +2,48 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState, useMemo } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { PACKAGES, CATEGORIES, CATEGORY_COLORS, type PackageCategory } from '@/lib/packages'
 import { APPLICATION_GROUPS } from '@/lib/applications'
+
+function formatDownloadCount(count: number): string {
+  return new Intl.NumberFormat('en', {
+    notation: 'compact',
+    maximumFractionDigits: 1,
+  }).format(count)
+}
 
 export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname()
   const [search, setSearch] = useState('')
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set())
+  const [downloadCounts, setDownloadCounts] = useState<Record<string, number | null>>({})
+  const [downloadsLoaded, setDownloadsLoaded] = useState(false)
+
+  useEffect(() => {
+    let active = true
+
+    const loadDownloads = async () => {
+      try {
+        const response = await fetch('/api/downloads')
+        if (!response.ok) throw new Error('Failed to load downloads')
+
+        const data = await response.json() as {
+          downloads?: Record<string, number | null>
+        }
+        if (active) setDownloadCounts(data.downloads ?? {})
+      } catch {
+        if (active) setDownloadCounts({})
+      } finally {
+        if (active) setDownloadsLoaded(true)
+      }
+    }
+
+    void loadDownloads()
+    return () => {
+      active = false
+    }
+  }, [])
 
   const filteredPackages = useMemo(() => {
     const q = search.trim().toLowerCase()
@@ -187,6 +221,13 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                 <ul className="pb-1">
                   {pkgs.map(pkg => {
                     const active = isActive(pkg.slug)
+                    const downloadCount = downloadCounts[pkg.slug]
+                    const downloadLabel = !downloadsLoaded
+                      ? 'Loading total npm downloads'
+                      : downloadCount === null || downloadCount === undefined
+                        ? 'Total npm downloads unavailable'
+                        : `${downloadCount.toLocaleString()} total npm downloads`
+
                     return (
                       <li key={pkg.slug}>
                         <Link
@@ -206,7 +247,18 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                               }`}
                             />
                           )}
-                          <span className="truncate font-mono">{pkg.slug}</span>
+                          <span className="min-w-0 flex-1 truncate font-mono">{pkg.slug}</span>
+                          <span
+                            className={`shrink-0 text-[10px] tabular-nums ${active ? 'text-blue-400' : 'text-slate-600'}`}
+                            title={downloadLabel}
+                            aria-label={downloadLabel}
+                          >
+                            {!downloadsLoaded
+                              ? '…'
+                              : downloadCount === null || downloadCount === undefined
+                                ? '—'
+                                : formatDownloadCount(downloadCount)}
+                          </span>
                         </Link>
                       </li>
                     )

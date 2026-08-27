@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { CATEGORIES, CATEGORY_COLORS, getPackages } from '@/lib/packages'
 import type { PackageMeta } from '@/lib/packages'
+import PackageDownloadCount from '@/components/PackageDownloadCount'
 import { SITE_URL } from '@/lib/seo'
 
 function StatCard({ value, label, color }: { value: number; label: string; color: string }) {
@@ -34,14 +35,17 @@ function PackageCard({ pkg }: { pkg: PackageMeta }) {
         <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${colors.badge}`}>
           {pkg.category}
         </span>
-        {pkg.demoUrl ? (
-          <span className="flex items-center gap-1 text-xs text-emerald-400">
-            <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-            Live demo
-          </span>
-        ) : (
-          <span className="text-xs text-slate-600">No demo</span>
-        )}
+        <div className="flex items-center gap-2 shrink-0">
+          <PackageDownloadCount slug={pkg.slug} compact />
+          {pkg.demoUrl ? (
+            <span className="flex items-center gap-1 text-xs text-emerald-400">
+              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+              Live demo
+            </span>
+          ) : (
+            <span className="text-xs text-slate-600">No demo</span>
+          )}
+        </div>
       </div>
     </Link>
   )
