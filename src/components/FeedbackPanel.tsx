@@ -45,6 +45,7 @@ export default function FeedbackPanel({ isOpen, onClose }: Props) {
   })
   const [errors, setErrors] = useState<FormErrors>({})
   const [submitting, setSubmitting] = useState(false)
+  const [reference, setReference] = useState<string | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   // Auto-focus textarea on open
@@ -60,6 +61,7 @@ export default function FeedbackPanel({ isOpen, onClose }: Props) {
     if (!isOpen) {
       const t = setTimeout(() => {
         setDone(false)
+        setReference(null)
         setForm({ description: '', role: '', emailOptIn: false, email: '' })
         setErrors({})
       }, 350)
@@ -110,6 +112,8 @@ export default function FeedbackPanel({ isOpen, onClose }: Props) {
         body: JSON.stringify(form),
       })
       if (!response.ok) throw new Error('Feedback request failed')
+      const result = (await response.json()) as { reference?: string }
+      setReference(result.reference ?? null)
       setDone(true)
     } catch {
       setErrors({ form: 'We could not send your feedback. Please try again.' })
@@ -141,7 +145,7 @@ export default function FeedbackPanel({ isOpen, onClose }: Props) {
         }`}
       >
         {done ? (
-          <SuccessView onClose={onClose} />
+          <SuccessView onClose={onClose} reference={reference} />
         ) : (
           <FormView
             form={form}
@@ -278,7 +282,7 @@ function FormView({
               className="sr-only peer"
               checked={form.emailOptIn}
               onChange={e => update('emailOptIn', e.target.checked)}
-              aria-label="We may email you for more information or updates"
+              aria-label="Send me a copy of this feedback by email"
             />
             {/* Custom checkbox visual — purely decorative, no handlers of its own */}
             <div
@@ -306,7 +310,7 @@ function FormView({
               )}
             </div>
             <span className="text-sm text-gray-700 leading-snug">
-              We may email you for more information or updates
+              Send me a copy of this feedback by email
             </span>
           </label>
 
@@ -355,7 +359,7 @@ function FormView({
             >
               Terms of Service
             </a>
-            . We may email you for more information or updates.
+            . Select the checkbox above if you would like a copy by email.
           </p>
         </div>
       </div>
@@ -390,7 +394,7 @@ function FormView({
 
 // ─── Success view ─────────────────────────────────────────────────────────────
 
-function SuccessView({ onClose }: { onClose: () => void }) {
+function SuccessView({ onClose, reference }: { onClose: () => void; reference: string | null }) {
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
@@ -430,6 +434,9 @@ function SuccessView({ onClose }: { onClose: () => void }) {
           <p className="text-sm text-gray-500 max-w-xs leading-relaxed">
             Your feedback has been submitted. It will help improve the ASafariM ecosystem and open-source packages.
           </p>
+          {reference && (
+            <p className="mt-3 text-xs font-medium text-gray-600">Reference: {reference}</p>
+          )}
         </div>
 
         <button
