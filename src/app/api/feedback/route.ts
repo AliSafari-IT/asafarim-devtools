@@ -72,7 +72,7 @@ export async function POST(request: Request) {
         text: [
           `Thank you for contacting ASafariM. Here is a copy of your feedback.`,
           message,
-          'If you would like to send a follow-up message, please contact contact@asafarim.com.',
+          `If you would like to send a follow-up message, please contact contact@asafarim.com and mention your reference number: ${reference}.`,
         ].join('\n\n'),
       })
     }
