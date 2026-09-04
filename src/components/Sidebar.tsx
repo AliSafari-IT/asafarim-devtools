@@ -70,26 +70,8 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <aside
       className="w-56 shrink-0 bg-slate-900 border-r border-slate-700/50 flex flex-col h-full overflow-hidden"
-      style={{ height: '100dvh' }}
     >
-      {/* Branding */}
-      <div className="shrink-0 px-4 py-4 border-b border-slate-700/50">
-        <Link href="/" onClick={onNavigate} className="flex items-center gap-2.5 group">
-          <img
-            src="/logo-icon.svg"
-            alt="ASafariM DevTools logo"
-            className="w-8 h-8 shrink-0 drop-shadow-lg"
-          />
-          <div>
-            <div className="text-sm font-semibold text-white leading-none group-hover:text-blue-300 transition-colors">
-              ASafariM
-            </div>
-            <div className="text-xs text-slate-500 leading-tight mt-0.5">
-              DevTools
-            </div>
-          </div>
-        </Link>
-      </div>
+
 
       {/* Search */}
       <div className="shrink-0 px-3 py-2.5 border-b border-slate-700/50">

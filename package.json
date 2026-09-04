@@ -8,6 +8,10 @@
     "start": "next start --port 3200",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
+    "encrypt": "envage encrypt --env local",
+    "decrypt": "envage decrypt --env local",
+    "encrypt:prod": "envage encrypt --env prod",
+    "decrypt:prod": "envage decrypt --env prod",
     "redeploy": "powershell -ExecutionPolicy Bypass -File redeploy.ps1",
     "vps:inspect": "ssh asm 'df -h /; docker system df'",
     "vps:clean": "ssh asm 'df -h /; docker system df'"
@@ -18,6 +22,7 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@asafarim/envage": "0.4.2",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^10.0.1",
     "@tailwindcss/postcss": "4.3.3",

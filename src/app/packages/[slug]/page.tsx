@@ -72,7 +72,7 @@ export default async function PackagePage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }}
       />
       {/* Page header */}
-      <div className="shrink-0 bg-slate-900/95 backdrop-blur border-b border-slate-700/50 px-4 pl-12 md:pl-5 md:px-5 py-3">
+      <div className="shrink-0 bg-slate-900/95 backdrop-blur border-b border-slate-700/50 px-4 md:px-5 py-3">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2 flex-wrap min-w-0">

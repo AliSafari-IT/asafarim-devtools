@@ -72,44 +72,8 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
       />
-      {/* Top bar */}
-      <div className="sticky top-0 z-10 bg-slate-900/95 backdrop-blur border-b border-slate-700/50 px-4 pl-12 md:pl-6 md:px-6 py-3 flex items-center justify-between gap-2">
-        <div className="min-w-0">
-          <h1 className="text-sm font-semibold text-white truncate">ASafariM DevTools</h1>
-          <p className="text-xs text-slate-400 truncate hidden sm:block">
-            Interactive demos for all @asafarim npm packages
-          </p>
-        </div>
-        <div className="flex items-center gap-3 sm:gap-4 shrink-0">
-          <a
-            href="https://asafarim.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-slate-400 hover:text-teal-300 transition-colors"
-          >
-            <span className="hidden sm:inline">asafarim.com</span><span className="sm:hidden">site</span> ↗
-          </a>
-          <a
-            href="https://www.npmjs.com/~asafarim.be"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-slate-400 hover:text-red-400 transition-colors"
-          >
-            npm ↗
-          </a>
-          <a
-            href="https://github.com/AliSafari-IT"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-slate-400 hover:text-white transition-colors"
-          >
-            <span className="hidden sm:inline">GitHub</span><span className="sm:hidden">GH</span> ↗
-          </a>
-        </div>
-      </div>
-
       {/* Hero */}
-      <div className="px-4 md:px-6 py-6 md:py-8 border-b border-slate-800">
+      <div className="px-4 md:px-6 py-6 md:py-8 pt-4 border-b border-slate-800">
         <div className="max-w-2xl flex items-center gap-3 md:gap-4">
           <img
             src="/logo-icon.svg"

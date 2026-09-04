@@ -8,5 +8,16 @@ out/
 
 # misc
 .env*.local
+.env
 *.pnpm-debug.log*
 .DS_Store
+
+# --- envage managed ---
+# Decrypted env files — never commit
+.env*
+!.env*.age
+!.env.example
+!.env.template
+# Age private key
+.age/key.txt
+# --- end envage ---

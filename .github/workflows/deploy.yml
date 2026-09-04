@@ -1,0 +1,83 @@
+name: Deploy production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PNPM_VERSION: 11.18.0
+  REMOTE_DIR: /var/repos/asafarim-devtools
+  ARCHIVE_NAME: asafarim-devtools.tar.gz
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Write envage private key
+        env:
+          ENVAGE_PRIVATE_KEY: ${{ secrets.ENVAGE_PRIVATE_KEY }}
+        run: |
+          test -n "$ENVAGE_PRIVATE_KEY"
+          mkdir -p .age
+          printf '%s\n' "$ENVAGE_PRIVATE_KEY" > .age/key.txt
+          chmod 600 .age/key.txt
+
+      - name: Decrypt production environment
+        run: printf 'y\n' | pnpm exec envage decrypt --env prod --key .age/key.txt
+
+      - name: Remove private key
+        run: rm -f .age/key.txt
+
+      - name: Create deployment archive
+        run: |
+          tar -czf "$ARCHIVE_NAME" \
+            --exclude=node_modules \
+            --exclude=.next \
+            --exclude=.git \
+            --exclude=.age/key.txt \
+            .
+
+      - name: Configure SSH
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+        run: |
+          test -n "$VPS_SSH_KEY"
+          mkdir -p ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Upload and rebuild on VPS
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          scp "$ARCHIVE_NAME" "$VPS_USER@$VPS_HOST:/tmp/$ARCHIVE_NAME"
+          ssh "$VPS_USER@$VPS_HOST" "mkdir -p '$REMOTE_DIR' && tar -xzf '/tmp/$ARCHIVE_NAME' -C '$REMOTE_DIR' && rm '/tmp/$ARCHIVE_NAME' && cd '$REMOTE_DIR' && docker compose up -d --build"
+
+      - name: Verify deployment
+        run: |
+          curl --fail --silent --show-error --location https://asafarim.be > /dev/null
