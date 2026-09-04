@@ -26,7 +26,7 @@ interface FormState {
   email: string
 }
 
-type FormErrors = Partial<Record<'description' | 'email', string>>
+type FormErrors = Partial<Record<'description' | 'email' | 'form', string>>
 
 interface Props {
   isOpen: boolean
@@ -44,6 +44,7 @@ export default function FeedbackPanel({ isOpen, onClose }: Props) {
     email: '',
   })
   const [errors, setErrors] = useState<FormErrors>({})
+  const [submitting, setSubmitting] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   // Auto-focus textarea on open
@@ -83,7 +84,7 @@ export default function FeedbackPanel({ isOpen, onClose }: Props) {
     }
   }
 
-  function handleSend() {
+  async function handleSend() {
     const e: FormErrors = {}
     if (!form.description.trim()) {
       e.description = 'Please describe your feedback before sending.'
@@ -99,9 +100,22 @@ export default function FeedbackPanel({ isOpen, onClose }: Props) {
       setErrors(e)
       return
     }
-    // TODO: replace with your actual API call
-    console.log('[ASafariM Feedback]', { submittedAt: new Date().toISOString(), ...form })
-    setDone(true)
+
+    setSubmitting(true)
+    setErrors({})
+    try {
+      const response = await fetch('/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      if (!response.ok) throw new Error('Feedback request failed')
+      setDone(true)
+    } catch {
+      setErrors({ form: 'We could not send your feedback. Please try again.' })
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const canSend = form.description.trim().length > 0
@@ -133,6 +147,7 @@ export default function FeedbackPanel({ isOpen, onClose }: Props) {
             form={form}
             errors={errors}
             canSend={canSend}
+            submitting={submitting}
             textareaRef={textareaRef}
             update={update}
             onClose={onClose}
@@ -150,6 +165,7 @@ interface FormViewProps {
   form: FormState
   errors: FormErrors
   canSend: boolean
+  submitting: boolean
   textareaRef: React.RefObject<HTMLTextAreaElement | null>
   update: <K extends keyof FormState>(key: K, value: FormState[K]) => void
   onClose: () => void
@@ -157,7 +173,7 @@ interface FormViewProps {
 }
 
 function FormView({
-  form, errors, canSend, textareaRef, update, onClose, onSend,
+  form, errors, canSend, submitting, textareaRef, update, onClose, onSend,
 }: FormViewProps) {
   return (
     <>
@@ -344,6 +360,10 @@ function FormView({
         </div>
       </div>
 
+      {errors.form && (
+        <p className="shrink-0 px-6 pb-3 text-xs text-red-500">{errors.form}</p>
+      )}
+
       {/* ── Footer ── */}
       <div className="shrink-0 flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-200 bg-gray-50/80">
         <button
@@ -354,14 +374,14 @@ function FormView({
         </button>
         <button
           onClick={onSend}
-          disabled={!canSend}
+          disabled={!canSend || submitting}
           className={`px-5 py-2 text-sm font-semibold rounded-md transition-all duration-150 ${
             canSend
               ? 'bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-sm hover:shadow-md'
               : 'bg-gray-200 text-gray-400 cursor-not-allowed'
           }`}
         >
-          Send
+          {submitting ? 'Sending…' : 'Send'}
         </button>
       </div>
     </>
