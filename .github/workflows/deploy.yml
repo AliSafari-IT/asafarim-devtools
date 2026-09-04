@@ -55,6 +55,7 @@ jobs:
             --exclude=.next \
             --exclude=.git \
             --exclude=.age/key.txt \
+            --exclude="$ARCHIVE_NAME" \
             .
 
       - name: Configure SSH
