@@ -9,7 +9,6 @@ permissions:
   contents: read
 
 env:
-  PNPM_VERSION: 11.18.0
   REMOTE_DIR: /var/repos/asafarim-devtools
   ARCHIVE_NAME: asafarim-devtools.tar.gz
 
@@ -24,8 +23,6 @@ jobs:
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
