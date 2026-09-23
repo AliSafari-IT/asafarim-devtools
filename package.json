@@ -1,6 +1,7 @@
 {
   "name": "asafarim-devtools",
-  "version": "0.4.0",
+  "version": "0.5.0",
+  "description": "ASafariM DevTools — showcase site for npm packages published under the @asafarim scope.",
   "private": true,
   "scripts": {
     "dev": "node -e \"require('fs').rmSync('.next', { recursive: true, force: true })\" && next dev --port 3200",
