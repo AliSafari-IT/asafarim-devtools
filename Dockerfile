@@ -2,7 +2,7 @@
 
 FROM node:26-alpine AS base
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
-RUN corepack enable && corepack prepare pnpm@11.18.0 --activate
+RUN npm install -g corepack && corepack enable
 
 FROM base AS deps
 WORKDIR /app

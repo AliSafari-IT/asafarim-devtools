@@ -8,8 +8,8 @@ This repository is the ASafariM DevTools showcase for npm packages published und
 
 - Next.js App Router with React and TypeScript
 - Tailwind CSS 4
-- pnpm 11.18.0
-- Node.js 22 for production builds
+- pnpm 12.6.0
+- Node.js 26 for production builds (corepack is not bundled; installed via npm in Dockerfile)
 
 ## Structure
 
