@@ -18,24 +18,24 @@
     "vps:clean": "ssh asm 'df -h /; docker system df'"
   },
   "dependencies": {
-    "next": "16.4.3",
-    "nodemailer": "^10.3.1",
+    "next": "16.4.6",
+    "nodemailer": "^10.4.0",
     "react": "19.3.1",
     "react-dom": "19.3.1"
   },
   "devDependencies": {
-    "@asafarim/envage": "0.4.2",
+    "@asafarim/envage": "0.5.0",
     "@eslint/eslintrc": "^3.3.7",
     "@eslint/js": "^10.0.1",
-    "@tailwindcss/postcss": "4.3.3",
+    "@tailwindcss/postcss": "4.3.5",
     "@types/node": "26.6.6",
     "@types/nodemailer": "^8.0.2",
     "@types/react": "19.3.0",
     "@types/react-dom": "^19.3.0",
     "eslint": "^9.0.0",
-    "eslint-config-next": "16.4.3",
-    "globals": "^17.13.0",
-    "tailwindcss": "4.3.3",
+    "eslint-config-next": "16.4.6",
+    "globals": "^17.14.0",
+    "tailwindcss": "4.3.5",
     "typescript": "7.0.2"
   },
   "packageManager": "pnpm@12.6.0"
