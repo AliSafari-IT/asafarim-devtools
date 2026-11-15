@@ -5,6 +5,8 @@ export interface ApplicationItem {
   embedUrl: string
   activePathPrefix: string
   description?: string
+  npmUrl?: string
+  instructions?: string[]
   githubUrl?: string
 }
 
@@ -21,6 +23,17 @@ export const APPLICATION_GROUPS: ApplicationGroup[] = [
     label: 'Applications',
     icon: '🚀',
     items: [
+      {
+        id: 'qr-studio',
+        label: 'QR Studio',
+        href: '/applications/qr-studio',
+        embedUrl: 'https://alisafari-it.github.io/asafarim-qr-studio/',
+        activePathPrefix: '/applications/qr-studio',
+        description: 'Create branded QR codes with logos, custom layouts and PNG/SVG downloads.',
+        githubUrl: 'https://github.com/AliSafari-IT/asafarim-qr-studio',
+        npmUrl: 'https://www.npmjs.com/package/@asafarim/qr-studio',
+        instructions: ['Enter a web address and choose Create QR code.', 'Optionally upload a logo, add a brand name, and adjust the layout.', 'Choose a file name, color and resolution, then download PNG or SVG.'],
+      },
       {
         id: 'logo-normalizer',
         label: 'Logo Normalizer',
