@@ -94,6 +94,9 @@ export default function PackageDemoFrame({ pkg }: Props) {
           className={`w-full h-full border-0 transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}
           onLoad={() => setLoaded(true)}
           sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+          // Let the demo's own copy buttons write to the clipboard: browsers refuse
+          // navigator.clipboard in a cross-origin frame unless the embedder delegates it.
+          allow="clipboard-write"
         />
       </div>
     </div>
