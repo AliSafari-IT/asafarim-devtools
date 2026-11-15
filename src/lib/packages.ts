@@ -34,6 +34,18 @@ export const CATEGORIES: CategoryDef[] = [
 ]
 
 export const PACKAGES: PackageMeta[] = [
+  {
+    slug: 'qr-studio',
+    name: '@asafarim/qr-studio',
+    version: '1.4.1',
+    description: 'Private QR generation with a typed core and React editor for logo uploads, brand layout controls and PNG/SVG exports.',
+    category: 'UI Components',
+    npmUrl: 'https://www.npmjs.com/package/@asafarim/qr-studio',
+    githubUrl: 'https://github.com/AliSafari-IT/asafarim-qr-studio',
+    demoUrl: 'https://alisafari-it.github.io/asafarim-qr-studio/',
+    keywords: ['qr', 'qrcode', 'logo', 'svg', 'react', 'typescript'],
+    install: 'pnpm add @asafarim/qr-studio',
+  },
   // ─── UI Components ───────────────────────────────────────────────────
   {
     slug: 'dd-menu',
