@@ -83,14 +83,6 @@ export default async function ApplicationPage({ params }: Props) {
 
           {/* Action links */}
           <div className="flex items-center gap-2 shrink-0 flex-wrap">
-            {app.instructions && (
-              <details className="text-xs text-slate-200 relative">
-                <summary className="cursor-pointer px-2 py-1 rounded border border-slate-600 bg-slate-800">How to use</summary>
-                <ol className="absolute z-30 right-0 mt-2 w-64 max-w-[85vw] list-decimal pl-7 pr-4 py-3 rounded-lg border border-slate-600 bg-slate-900 shadow-xl space-y-2">
-                  {app.instructions.map(step => <li key={step}>{step}</li>)}
-                </ol>
-              </details>
-            )}
             {app.npmUrl && (
               <a href={app.npmUrl} target="_blank" rel="noopener noreferrer" className="px-2 py-1 text-xs rounded border border-red-800 text-red-300 bg-red-900/30">npm ↗</a>
             )}
