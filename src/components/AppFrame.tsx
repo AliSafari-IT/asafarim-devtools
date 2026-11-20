@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useFrameLoaded } from '@/lib/useFrameLoaded'
 import type { ApplicationItem } from '@/lib/applications'
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function AppFrame({ app }: Props) {
-  const [loaded, setLoaded] = useState(false)
+  const { mounted, loaded, onLoad } = useFrameLoaded()
 
   return (
     <div className="flex flex-col h-full bg-slate-950">
@@ -39,20 +39,23 @@ export default function AppFrame({ app }: Props) {
       {/* Iframe */}
       <div className="flex-1 relative">
         {!loaded && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-slate-950">
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-slate-950 pointer-events-none">
             <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
             <span className="text-xs text-slate-400">Loading {app.label}…</span>
           </div>
         )}
-        <iframe
-          src={app.embedUrl}
-          title={`${app.label} application`}
-          className={`w-full h-full border-0 transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}
-          onLoad={() => setLoaded(true)}
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-downloads"
-          // Let the app's own copy buttons write to the clipboard (see PackageDemoFrame).
-          allow="clipboard-write"
-        />
+        {mounted && (
+          <iframe
+            src={app.embedUrl}
+            title={`${app.label} application`}
+            className={`w-full h-full border-0 transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+            onLoad={onLoad}
+            // allow-modals: see PackageDemoFrame (alert()/confirm() are blocked without it).
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-downloads allow-modals"
+            // Let the app's own copy buttons write to the clipboard (see PackageDemoFrame).
+            allow="clipboard-write"
+          />
+        )}
       </div>
     </div>
   )

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useFrameLoaded } from '@/lib/useFrameLoaded'
 import type { PackageMeta } from '@/lib/packages'
 
 interface Props {
@@ -48,7 +48,7 @@ function NoDemo({ pkg }: { pkg: PackageMeta }) {
 }
 
 export default function PackageDemoFrame({ pkg }: Props) {
-  const [loaded, setLoaded] = useState(false)
+  const { mounted, loaded, onLoad } = useFrameLoaded()
 
   if (!pkg.demoUrl) {
     return <NoDemo pkg={pkg} />
@@ -83,21 +83,25 @@ export default function PackageDemoFrame({ pkg }: Props) {
       {/* Iframe */}
       <div className="flex-1 relative">
         {!loaded && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-slate-950">
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-slate-950 pointer-events-none">
             <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
             <span className="text-xs text-slate-400">Loading demo…</span>
           </div>
         )}
-        <iframe
-          src={pkg.demoUrl}
-          title={`${pkg.name} live demo`}
-          className={`w-full h-full border-0 transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}
-          onLoad={() => setLoaded(true)}
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
-          // Let the demo's own copy buttons write to the clipboard: browsers refuse
-          // navigator.clipboard in a cross-origin frame unless the embedder delegates it.
-          allow="clipboard-write"
-        />
+        {mounted && (
+          <iframe
+            src={pkg.demoUrl}
+            title={`${pkg.name} live demo`}
+            className={`w-full h-full border-0 transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+            onLoad={onLoad}
+            // allow-modals: many demos answer a click with alert()/confirm(). Without it the
+            // sandbox blocks those calls silently, so the click looks dead.
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-modals"
+            // Let the demo's own copy buttons write to the clipboard: browsers refuse
+            // navigator.clipboard in a cross-origin frame unless the embedder delegates it.
+            allow="clipboard-write"
+          />
+        )}
       </div>
     </div>
   )

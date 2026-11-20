@@ -49,7 +49,7 @@ export default function CookiePolicyPage() {
         Package detail pages may embed a live demo from a third-party domain (typically{' '}
         <code>*.github.io</code>) inside a sandboxed <code>&lt;iframe&gt;</code> with the{' '}
         <code>sandbox</code> attribute set to <code>allow-scripts allow-same-origin allow-forms
-        allow-popups allow-popups-to-escape-sandbox</code>. These third-party pages may set their
+        allow-popups allow-popups-to-escape-sandbox allow-modals</code>. These third-party pages may set their
         own cookies or use their own local storage, scoped to their own origin, governed entirely
         by their own cookie/privacy policies. We do not access, read, or control cookies set by
         embedded third-party content.
